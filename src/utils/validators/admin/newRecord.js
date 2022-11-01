@@ -47,6 +47,10 @@ export const NewRecordValidator = ()=>{
             .min(5, 'Minimum of 5 characters required'),
         fee:Yup
             .string()
-            .required('School fee is required')
+            .required('School fee is required'),
+        degree:Yup
+            .string()
+            .required('Degree is required')
+           
     })
 }

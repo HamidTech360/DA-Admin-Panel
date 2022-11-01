@@ -6,9 +6,10 @@ import Spinner from 'react-spinner-material';
 import Swal from 'sweetalert2';
 import { getRequest, postRequest, updateRequest } from '../../utils/axios';
 import { NewRecordValidator } from '../../utils/validators/admin/newRecord';
+import { countries } from '../../utils/helpers/data/countries';
 import HomeLayout from '../../Layouts/HomeLayout';
 import DashBoardHeader from '../../components/dashboard_header';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button, FormSelect } from 'react-bootstrap';
 import Backdrop from '../../components/backdrop';
 
 import styles from './styles/new.module.scss'
@@ -97,7 +98,8 @@ const EditRecord = () => {
             aboutSchool:school?.aboutSchool || '',
             requirement:school?.requirement || '',
             services:school?.services || '',
-            fee:school?.fee || ''
+            fee:school?.fee || '',
+            degree:school?.degree || ''
         },
         validationSchema:NewRecordValidator(),
         onSubmit:(values)=>{
@@ -170,7 +172,7 @@ const EditRecord = () => {
                         <Row>
                             <Col lg="6" className=' mb-3' >
                                 <Form.Group>
-                                    <Form.Label htmlFor="school name" className={`${styles.label} ml-3`}>School Name </Form.Label>
+                                    <Form.Label htmlFor="school name" className={`${styles.label} ml-3`}>Name of Institution </Form.Label>
                                     <Form.Control
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur} 
@@ -188,7 +190,7 @@ const EditRecord = () => {
                         <Row>
                             <Col lg="5" className=' mb-3'>
                             <Form.Group>
-                                <Form.Label htmlFor="Department" className={`${styles.label} ml-3`}>Department</Form.Label>
+                                <Form.Label htmlFor="Department" className={`${styles.label} ml-3`}>Course</Form.Label>
                                 <Form.Control
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur} 
@@ -222,7 +224,7 @@ const EditRecord = () => {
                         <Row>
                             <Col lg="5" className=' mb-3'>
                             <Form.Group>
-                                <Form.Label htmlFor="faculty" className={`${styles.label} ml-3`}>Faculty</Form.Label>
+                                <Form.Label htmlFor="faculty" className={`${styles.label} ml-3`}>Field Of study</Form.Label>
                                 <Form.Control
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur} 
@@ -239,6 +241,26 @@ const EditRecord = () => {
                             <Col lg="5" className=' mb-3'>
                             <Form.Group>
                                 <Form.Label htmlFor="country" className={`${styles.label} ml-3`}>Country</Form.Label>
+                                    <FormSelect
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur} 
+                                        value={formik.values.country}
+                                        className={`${styles.input}  ml-3 `}
+                                        name="country" 
+                                        style={formik.touched.country && formik.errors.country && errorStyle}
+                                    >
+                                       <option value="">Select country</option>
+                                       {countries.map((item, i)=>
+                                       <option value={item.name}>{item.name}</option>
+                                       )}
+                                      
+                                    </FormSelect>
+                                {formik.touched.country && formik.errors.country && 
+                                    <p className={`${styles.errorMessage} px-3`}>{formik.errors.country}</p>}
+                            </Form.Group>
+                            {/* <Form.Group>
+                                <Form.Label htmlFor="country" className={`${styles.label} ml-3`}>Country</Form.Label>
+                                
                                 <Form.Control
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur} 
@@ -249,7 +271,7 @@ const EditRecord = () => {
                                 />
                                 {formik.touched.country && formik.errors.country && 
                                     <p className={`${styles.errorMessage} px-3`}>{formik.errors.country}</p>}
-                            </Form.Group>
+                            </Form.Group> */}
                             </Col>
                         </Row>
 
@@ -290,7 +312,7 @@ const EditRecord = () => {
                         <Row>
                             <Col lg="5" className=' mb-3' >
                                 <Form.Group>
-                                    <Form.Label htmlFor="school name" className={`${styles.label} ml-3`}>School Fee </Form.Label>
+                                    <Form.Label htmlFor="school fee" className={`${styles.label} ml-3`}>School Fee </Form.Label>
                                     <Form.Control
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur} 
@@ -302,6 +324,28 @@ const EditRecord = () => {
 
                                     {formik.touched.fee && formik.errors.fee && 
                                     <p className={`${styles.errorMessage} px-3`}>{formik.errors.fee}</p>}
+                                </Form.Group>
+                            </Col>
+
+                            <Col lg="5" className=' mb-3' >
+                                <Form.Group>
+                                    <Form.Label htmlFor="Degree" className={`${styles.label} ml-3`}>Degree</Form.Label>
+                                    <FormSelect
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur} 
+                                        value={formik.values.degree}
+                                        className={`${styles.input}  ml-3 `}
+                                        name="degree" 
+                                        style={formik.touched.degree && formik.errors.degree && errorStyle}
+                                    >
+                                        <option value="">Select degree</option>
+                                       <option value="MSC">Masters degree</option>
+                                       <option value="BSC">Bachelor degree</option>
+                                       <option value="diploma">Diploma</option>
+                                    </FormSelect>
+
+                                    {formik.touched.degree && formik.errors.degree && 
+                                    <p className={`${styles.errorMessage} px-3`}>{formik.errors.degree}</p>}
                                 </Form.Group>
                             </Col>
                         </Row>

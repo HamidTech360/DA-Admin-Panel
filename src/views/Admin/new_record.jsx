@@ -4,10 +4,11 @@ import { useMutation } from 'react-query';
 import Spinner from 'react-spinner-material';
 import Swal from 'sweetalert2';
 import { postRequest } from '../../utils/axios';
+import { countries } from '../../utils/helpers/data/countries';
 import { NewRecordValidator } from '../../utils/validators/admin/newRecord';
 import HomeLayout from '../../Layouts/HomeLayout';
 import DashBoardHeader from '../../components/dashboard_header';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button, FormSelect } from 'react-bootstrap';
 
 import styles from './styles/new.module.scss'
 
@@ -28,7 +29,8 @@ const NewRecord = () => {
             aboutSchool:'',
             requirement:'',
             services:'',
-            fee:''
+            fee:'',
+            degree:''
         },
         validationSchema:NewRecordValidator(),
         onSubmit:(values)=>{
@@ -147,7 +149,7 @@ const NewRecord = () => {
                         <Row>
                             <Col lg="6" className=' mb-3' >
                                 <Form.Group>
-                                    <Form.Label htmlFor="school name" className={`${styles.label} ml-3`}>School Name </Form.Label>
+                                    <Form.Label htmlFor="school name" className={`${styles.label} ml-3`}>Name of Institution </Form.Label>
                                     <Form.Control
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur} 
@@ -165,7 +167,7 @@ const NewRecord = () => {
                         <Row>
                             <Col lg="5" className=' mb-3'>
                             <Form.Group>
-                                <Form.Label htmlFor="Department" className={`${styles.label} ml-3`}>Department</Form.Label>
+                                <Form.Label htmlFor="Department" className={`${styles.label} ml-3`}>Course Name</Form.Label>
                                 <Form.Control
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur} 
@@ -216,14 +218,20 @@ const NewRecord = () => {
                             <Col lg="5" className=' mb-3'>
                             <Form.Group>
                                 <Form.Label htmlFor="country" className={`${styles.label} ml-3`}>Country</Form.Label>
-                                <Form.Control
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur} 
-                                    value={formik.values.country}
-                                    type="text" className={`${styles.input} ml-3 `}
-                                    name="country" 
-                                    style={formik.touched.country && formik.errors.country && errorStyle}
-                                />
+                                    <FormSelect
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur} 
+                                        value={formik.values.country}
+                                        className={`${styles.input}  ml-3 `}
+                                        name="country" 
+                                        style={formik.touched.country && formik.errors.country && errorStyle}
+                                    >
+                                       <option value="">Select country</option>
+                                       {countries.map((item, i)=>
+                                       <option value={item.name}>{item.name}</option>
+                                       )}
+                                      
+                                    </FormSelect>
                                 {formik.touched.country && formik.errors.country && 
                                     <p className={`${styles.errorMessage} px-3`}>{formik.errors.country}</p>}
                             </Form.Group>
@@ -267,7 +275,7 @@ const NewRecord = () => {
                         <Row>
                             <Col lg="5" className=' mb-3' >
                                 <Form.Group>
-                                    <Form.Label htmlFor="school name" className={`${styles.label} ml-3`}>School Fee </Form.Label>
+                                    <Form.Label htmlFor="school fee" className={`${styles.label} ml-3`}>School Fee </Form.Label>
                                     <Form.Control
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur} 
@@ -281,6 +289,37 @@ const NewRecord = () => {
                                     <p className={`${styles.errorMessage} px-3`}>{formik.errors.fee}</p>}
                                 </Form.Group>
                             </Col>
+
+                            <Col lg="5" className=' mb-3' >
+                                <Form.Group>
+                                    <Form.Label htmlFor="Degree" className={`${styles.label} ml-3`}>Degree</Form.Label>
+                                    <FormSelect
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur} 
+                                        value={formik.values.degree}
+                                        className={`${styles.input}  ml-3 `}
+                                        name="degree" 
+                                        style={formik.touched.degree && formik.errors.degree && errorStyle}
+                                    >
+                                        <option value="">Select degree</option>
+                                       <option value="MSC">Masters degree</option>
+                                       <option value="BSC">Bachelor degree</option>
+                                       <option value="diploma">Diploma</option>
+                                    </FormSelect>
+                                    {/* <Form.Control
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur} 
+                                        value={formik.values.degree}
+                                        type="text" className={`${styles.input}  ml-3 `}
+                                        name="fee" 
+                                        style={formik.touched.degree && formik.errors.degree && errorStyle}
+                                    /> */}
+
+                                    {formik.touched.degree && formik.errors.degree && 
+                                    <p className={`${styles.errorMessage} px-3`}>{formik.errors.degree}</p>}
+                                </Form.Group>
+                            </Col>
+
                         </Row>
 
                         <Row>
